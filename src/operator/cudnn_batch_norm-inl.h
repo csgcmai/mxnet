@@ -175,6 +175,9 @@ class CuDNNBatchNormOp : public Operator {
     float b = 0.0f;
     float b_add = 1.0f;
     CHECK_EQ(s->dnn_handle_ownership_, mshadow::Stream<gpu>::OwnHandle);
+
+    if (param_.fix_gamma) gamma = 1.f;
+
 #if CUDNN_VERSION >= 4007
     CHECK_EQ(cudnnBatchNormalizationBackward(s->dnn_handle_,
                                              CUDNN_BATCHNORM_SPATIAL,
